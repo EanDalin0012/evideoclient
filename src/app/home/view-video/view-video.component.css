@@ -1,0 +1,7 @@
+.scroll-hiden {
+  overflow: hidden;
+}
+
+.main-wrapper {
+  overflow: hidden !important;
+}

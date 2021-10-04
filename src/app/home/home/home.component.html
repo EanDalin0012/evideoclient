@@ -1,0 +1,135 @@
+<!-- Page Content -->
+<div class="content container-fluid">
+
+  <div class="row">
+      <div class="col-sm-12">
+          <div class="file-wrap">
+              <div class="file-sidebar">
+                  <div class="file-header justify-content-center">
+                      <span>Types</span>
+                      <a id="sidebar_toggle"  class="file-side-close">
+                        <i class="fa fa-times"></i>
+                      </a>
+                  </div>
+
+                  <div class="file-pro-list">
+                      <div class="file-scroll">
+                        <div class="roles-menu">
+                          <ul>
+                            <li class="active">
+                              <a href="javascript:void(0);">Administrator
+                                <span class="role-action">
+                                  <span class="action-circle large" data-toggle="modal" data-target="#edit_role">
+                                    <i class="material-icons">edit</i>
+                                  </span>
+                                  <span class="action-circle large delete-btn" data-toggle="modal" data-target="#delete_role">
+                                    <i class="material-icons">delete</i>
+                                  </span>
+                                </span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="javascript:void(0);">CEO
+                                <span class="role-action">
+                                  <span class="action-circle large" data-toggle="modal" data-target="#edit_role">
+                                    <i class="material-icons">edit</i>
+                                  </span>
+                                  <span class="action-circle large delete-btn" data-toggle="modal" data-target="#delete_role">
+                                    <i class="material-icons">delete</i>
+                                  </span>
+                                </span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="javascript:void(0);">Manager</a>
+                            </li>
+                          </ul>
+                        </div>
+                          <!-- <div class="show-more">
+                              <a>Show More</a>
+                          </div> -->
+                      </div>
+                  </div>
+
+              </div>
+              <div class="file-cont-wrap">
+                  <div class="file-cont-inner">
+                      <div class="file-cont-header">
+                          <div class="file-options" id="file_sidebar_toggle">
+                              <a href="javascript:void(0)"  class="file-sidebar-toggle">
+                                  <i class="fa fa-bars"></i>
+                              </a>
+                          </div>
+
+                          <form class="file-search form-search-vd">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <i class="fa fa-search i-search-vd"></i>
+                                </div>
+                                <input type="text" class="form-control input-search-vd" placeholder="Search a" (input)="searchText($event)" style="background-color: rgb(232, 240, 254) !important;">
+                            </div>
+                        </form>
+
+                      </div>
+
+                      <div class="file-content">
+                          <div class="file-body">
+                              <div
+                                  class="file-scroll main-panel"
+                                  infinite-scroll
+                                  (scrolled)="onScrollDown($event)"
+                                  (scrolledUp)="onScrollUp($event)"
+                                  [infiniteScrollContainer]="selector"
+                                  [fromRoot]="true"
+                                  >
+                                  <div class="file-content-inner">
+                                      <h4>Recent Files</h4>
+                                      <div class="row row-sm">
+                                          <div class="col-6 col-sm-4 col-md-3 col-lg-4 col-xl-3"
+                                              *ngFor="let data of lstSearchList">
+                                              <div class="card card-file" (click)="view(data)">
+                                                  <div class="dropdown-file">
+                                                      <a href="javascript:void(0)" class="dropdown-link" data-toggle="dropdown"><i
+                                                              class="fa fa-ellipsis-v"></i></a>
+                                                      <div class="dropdown-menu dropdown-menu-right">
+                                                          <a href="javascript:void(0)" class="dropdown-item">View</a>
+                                                          <a href="javascript:void(0)" class="dropdown-item">Share</a>
+                                                      </div>
+                                                  </div>
+                                                  <div class="card-file-thumb bb" style="background-image: url('https://1.bp.blogspot.com/-fjll9rjSaLk/YVAvYOTwNVI/AAAAAAAACxk/22IqgsYrY5IFYcG3F57NCnsu6ltCY5H5gCLcBGAsYHQ/w222-h230-p-k-no-nu/Lung-Sne-Chong-Pov-Bosaba.png');">
+
+                                                  </div>
+                                                  <div class="card-body">
+                                                      <h6><a href="javascript:void(0)">{{data.name}}</a></h6>
+                                                      <span>{{data.size}} views</span>
+                                                  </div>
+                                                  <div class="card-footer">
+                                                      <span class="d-none d-sm-inline">Part : [0-12 EP]</span>
+                                                  </div>
+                                              </div>
+                                          </div>
+
+                                      </div>
+
+
+                                  </div>
+
+                                  <div style ="margin: auto; width: 100;" *ngIf="scrolledLoadData === true">
+                                      <div class = "scroll-load-vd">
+                                              <img src="assets/img/loading.gif" alt="" style = "width: 100%;height: 100%;">
+                                              Loading
+                                      </div>
+
+                                  </div>
+
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+</div>
+<!-- /Page Content -->

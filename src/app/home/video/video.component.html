@@ -1,0 +1,150 @@
+<div class="chat-window">
+  <div class="fixed-header">
+      <div class="navbar">
+          <div class="user-details">
+              <div class="float-left user-img">
+                  <a class="avatar"  title="Mike Litorus">
+                      <img src="https://1.bp.blogspot.com/-fjll9rjSaLk/YVAvYOTwNVI/AAAAAAAACxk/22IqgsYrY5IFYcG3F57NCnsu6ltCY5H5gCLcBGAsYHQ/w222-h230-p-k-no-nu/Lung-Sne-Chong-Pov-Bosaba.png" alt="" class="rounded-circle">
+                      <span class="status online"></span>
+                  </a>
+              </div>
+              <div class="user-info float-left">
+                  <a ><span>Mike Litorus</span></a>
+                  <span class="last-seen">Online</span>
+              </div>
+          </div>
+          <!-- <ul class="nav float-right custom-menu">
+              <li class="nav-item">
+                  <a href="#task_window" id="task_chat" class="task-chat profile-rightbar float-right"><i class="fa fa-comments"></i></a>
+              </li>
+
+          </ul> -->
+
+          <ul class="nav float-right custom-menu">
+            <li class="nav-item">
+              <a href="#task_window" id="task_chat" class="task-chat profile-rightbar float-right"><i class="fa fa-comments"></i></a>
+            </li>
+            <li class="nav-item dropdown dropdown-action">
+              <div class="h3 card-title with-switch">
+                <span style="margin-right: 20px;margin-top: 5px;">Auto Play</span>
+
+                <div class="onoffswitch">
+                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switch_annual"
+                        checked>
+                    <label class="onoffswitch-label" for="switch_annual">
+                        <span class="onoffswitch-inner"></span>
+                        <span class="onoffswitch-switch"></span>
+                    </label>
+                </div>
+            </div>
+              <!-- <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-cog"></i></a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a href="javascript:void(0)" class="dropdown-item">Settings</a>
+              </div> -->
+            </li>
+          </ul>
+
+      </div>
+  </div>
+  <div class="chat-contents">
+      <div class="chat-content-wrap col-md-12" style="margin-top: 15px;">
+          <div class="user-video" style="position: relative;width: 90%;margin: 0 auto;">
+
+            <!-- <video loop autoplay oncanplay="this.play()" onloadedmetadata="this.muted = true" controls controlsList="nodownload">
+              <source [src]="src" type="video/mp4">
+          </video> -->
+
+
+            <!-- <video autoplay="autoplay" preload="auto" controls controlsList="nodownload" >
+              <source [src]="src" type="video/mp4">
+          </video> -->
+
+            <video type="video/mp4" [src]="src"  height="200" controls controlsList="nodownload" (ended)="videoEnd()" style="width: 100%;"></video>
+
+          </div>
+
+
+          <div class="chat-contents task-chat-contents" style="height: 500px;
+          display: block; display: block;
+          width: 90%;
+          margin: auto;">
+            <div class="chat-content-wrap">
+              <div class="chat-wrap-inner">
+                <div class="chat-box">
+
+                  <div class="chats">
+
+                  <div class="file-pro-list">
+                    <div class="file-scroll">
+                      <div class="roles-menu">
+                        <ul>
+                          <ng-container *ngFor="let item of vdParts">
+                            <li [ngClass]="{'active': item.part === vdPartId}" (click)="changePlayVD(item)">
+                              <a href="javascript:void(0);" style="padding: 0px;">
+                                <div class="navbar">
+                                  <div class="user-details">
+                                      <div class="float-left user-img">
+                                          <a class="avatar"  title="Mike Litorus" style="padding: 0px;border-left: none;">
+                                              <img src="https://1.bp.blogspot.com/-fjll9rjSaLk/YVAvYOTwNVI/AAAAAAAACxk/22IqgsYrY5IFYcG3F57NCnsu6ltCY5H5gCLcBGAsYHQ/w222-h230-p-k-no-nu/Lung-Sne-Chong-Pov-Bosaba.png" alt="" class="rounded-circle">
+                                              <span class="status online"></span>
+                                          </a>
+                                      </div>
+                                      <div class="user-info float-left">
+                                          <a style="padding: 0px;border-left: none;"><span>{{item.title}}</span></a>
+                                          <span class="last-seen">{{item.createOn}}</span>
+                                      </div>
+                                      <span class="part"> {{item.part}} part</span>
+                                      <span class="part" *ngIf = "item.isEnd === 'Y'"> End</span>
+
+                                  </div>
+                                </div>
+                              </a>
+                            </li>
+                          </ng-container>
+
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                    <!-- <ng-container *ngFor="let item of vdParts">
+
+
+                      <a href="javascript:void(0);">
+                      <div class="navbar">
+                        <div class="user-details">
+                            <div class="float-left user-img">
+                                <a class="avatar"  title="Mike Litorus">
+                                    <img src="https://1.bp.blogspot.com/-fjll9rjSaLk/YVAvYOTwNVI/AAAAAAAACxk/22IqgsYrY5IFYcG3F57NCnsu6ltCY5H5gCLcBGAsYHQ/w222-h230-p-k-no-nu/Lung-Sne-Chong-Pov-Bosaba.png" alt="" class="rounded-circle">
+                                    <span class="status online"></span>
+                                </a>
+                            </div>
+                            <div class="user-info float-left">
+                                <a ><span>Mike Litorus</span></a>
+                                <span class="last-seen">19-02-2021: 12:50</span>
+                            </div>
+                            <span class="part"> {{item.part}} part</span>
+                        </div>
+                      </div>
+                    </a>
+                    <hr class="task-line" style="margin: 0.5rem;">
+                    </ng-container> -->
+
+                    <div class="task-information">
+                      <span class="task-info-line">
+                        <a class="task-user" href="#">John Doe</a>
+                        <span class="task-info-subject">marked task as incomplete</span>
+                      </span>
+                      <div class="task-time">1:16pm</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+      </div>
+  </div>
+
+</div>
