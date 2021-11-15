@@ -1,10 +1,18 @@
+import { VideoComponent } from './../../home/video/video.component';
 
 export enum MODAL_STORE_KEY {
   MODAL_STORE_KEY = 'Modal_Store_object_dialog'
 }
 
+export enum HTTPResponseCode {
+  Success = "200",
+  NotFound = "404",
+  Found = "302",
+  Forbidden = "403"
+}
 
 export enum LOCAL_STORAGE {
+
   DEVICE_INFO     = 'deviceInfo',
   Account_Info     = 'AccountInfo',
   SubAccountSenair = "Sub-Account-Senair",
@@ -23,7 +31,9 @@ export enum LOCAL_STORAGE {
   LAST_EVENT_TIME = 'lastEventTime',
   LAST_TIME_CHECK_NOTIFICATION = 'theLastTimeCheckNotification',
   Authorization   = 'Authorization',
-  AccountTypeCode = 'AccountTypeCode'
+  AccountTypeCode = 'AccountTypeCode',
+  VideoView          = 'Video-View',
+  Auto_Play       = 'Auto_Play'
 }
 
 

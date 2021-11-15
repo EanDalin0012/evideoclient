@@ -30,7 +30,7 @@
 
                 <div class="onoffswitch">
                     <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switch_annual"
-                        checked>
+                        [checked] = "check" (change)="checkValue($event)">
                     <label class="onoffswitch-label" for="switch_annual">
                         <span class="onoffswitch-inner"></span>
                         <span class="onoffswitch-switch"></span>
@@ -59,7 +59,7 @@
               <source [src]="src" type="video/mp4">
           </video> -->
 
-            <video type="video/mp4" [src]="src"  height="200" controls controlsList="nodownload" (ended)="videoEnd()" style="width: 100%;"></video>
+            <video type="video/mp4" [src]="videoSrc" [autoplay]="autoplay" [preload]="auto" height="200" controls controlsList="nodownload" (ended)="videoEnd()" style="width: 100%;"></video>
 
           </div>
 
@@ -78,19 +78,19 @@
                     <div class="file-scroll">
                       <div class="roles-menu">
                         <ul>
-                          <ng-container *ngFor="let item of vdParts">
-                            <li [ngClass]="{'active': item.part === vdPartId}" (click)="changePlayVD(item)">
+                          <ng-container *ngFor="let item of vdParts; let indexOfelement=index;">
+                            <li [ngClass]="{'active': item.part === vdPartId}" (click)="changePlayVD(indexOfelement, item)">
                               <a href="javascript:void(0);" style="padding: 0px;">
                                 <div class="navbar">
                                   <div class="user-details">
                                       <div class="float-left user-img">
                                           <a class="avatar"  title="Mike Litorus" style="padding: 0px;border-left: none;">
-                                              <img src="https://1.bp.blogspot.com/-fjll9rjSaLk/YVAvYOTwNVI/AAAAAAAACxk/22IqgsYrY5IFYcG3F57NCnsu6ltCY5H5gCLcBGAsYHQ/w222-h230-p-k-no-nu/Lung-Sne-Chong-Pov-Bosaba.png" alt="" class="rounded-circle">
+                                              <img [src]="src" alt="" class="rounded-circle" style="min-height: 40px;">
                                               <span class="status online"></span>
                                           </a>
                                       </div>
-                                      <div class="user-info float-left">
-                                          <a style="padding: 0px;border-left: none;"><span>{{item.title}}</span></a>
+                                      <div class="ussrcer-info float-left">
+                                          <a style="padding: 0px;border-left: none;"><span>{{jsonData.VideoName}}</span></a>
                                           <span class="last-seen">{{item.createOn}}</span>
                                       </div>
                                       <span class="part"> {{item.part}} part</span>

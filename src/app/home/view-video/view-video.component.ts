@@ -1,5 +1,9 @@
+import { EncryptionUtil } from './../../v-share/util/encryption-util';
+import { LOCAL_STORAGE } from './../../v-share/constants/common.const';
 import { Component, OnInit } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
+import { Utils } from 'src/app/v-share/util/utils.static';
+import { environment } from 'src/environments/environment';
 declare const $: any;
 
 
@@ -10,13 +14,16 @@ declare const $: any;
 })
 export class ViewVideoComponent implements OnInit {
 
+
   urlComplete = {
     mainUrl : '',
     subUrl : '',
     childUrl : ''
   };
 
+
   constructor(private router: Router) {
+
     this.router.events.subscribe((event: Event) => {
       if ( event instanceof NavigationEnd) {
         const url = event.url.split('/');
@@ -115,6 +122,8 @@ export class ViewVideoComponent implements OnInit {
     if ($('[data-toggle="tooltip"]').length > 0) {
       $('[data-toggle="tooltip"]').tooltip();
     }
+
+
   }
 
   addTaskboard() {

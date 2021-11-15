@@ -1,5 +1,14 @@
+import { EncryptionUtil } from './../../v-share/util/encryption-util';
+import { HTTPResponseCode, LOCAL_STORAGE } from './../../v-share/constants/common.const';
+import { TranslateService } from '@ngx-translate/core';
+import { HTTPService } from './../../v-share/service/http.service';
+import { DataService } from './../../v-share/service/data.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
+import { Utils } from 'src/app/v-share/util/utils.static';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +16,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+
+  baseUrl: string = '';
 
   public lstFiles: any[] = [];
   public searchFilterList: any[] = [];
@@ -18,9 +29,28 @@ export class HomeComponent implements OnInit {
 
   fileSidebarToggle = false;
 
-  constructor(private router: Router) { }
+  // message:any;
+  videoType:any;
+  lstSubVideoType: any[] = [];
+  rowData: any;
+  subVideoType:any;
+  OFFSET = 0;
+  lstVideo: any[] = [];
+  rowDataVideo: any;
+
+// /unsecur/api/image/reader/v0/read/'+ params.data?.resourceId
+  constructor(
+    private dataService: DataService,
+    private titleService: Title,
+    private hTTPService: HTTPService,
+    private translate: TranslateService,
+    private toastr: ToastrService,
+    private router: Router) {
+      this.baseUrl = environment.bizServer.server + '/unsecur/api/image/reader/v0/read/';
+    }
 
   ngOnInit() {
+
     this.lstFiles = [
       { id: 1, name: 'All Projects' },
       { id: 2, name: 'Office Management' },
@@ -33,86 +63,7 @@ export class HomeComponent implements OnInit {
       { id: 2, name: 'Movies' },
       { id: 3, name: 'Histories' }
     ]
-    this.lstFileList = [
-      {
-        id: 1, name: 'Lung Sne Chong Pov Bosaba​', size: '10.45kb', last_modified: '1 min ago'
-      },
-      {
-        id: 2, name: 'Documents.pdf', size: '22.67kb', last_modified: '2 min ago'
-      },
-      {
-        id: 3, name: 'icons.pdf', size: '25.45kb', last_modified: '5 min ago'
-      },
-      {
-        id: 4, name: 'User.xls', size: '25.1kb', last_modified: '15 min ago'
-      },
-      {
-        id: 5, name: 'Update.pdf', size: '32.25kb', last_modified: '14-Aug-2020'
-      },
-      {
-        id: 6, name: 'Vision.pdf', size: '14.45kb', last_modified: '30 min ago'
-      },
-      {
-        id: 7, name: 'Voice.pdf', size: '35.4kb', last_modified: '5 min ago'
-      },
-      {
-        id: 8, name: 'Tutorials.docs', size: '48.07kb', last_modified: '19 min ago'
-      },
-      {
-        id: 9, name: 'Music.mp3', size: '10.45kb', last_modified: '18 min ago'
-      },
-      {
-        id: 10, name: 'index.html', size: '49.13kb', last_modified: '24-Sep-2020'
-      },
-      {
-        id: 11, name: 'Installation.pdf', size: '10.45kb', last_modified: '69 min ago'
-      },
-      {
-        id: 12, name: 'Page.pdf', size: '10.45kb', last_modified: '45 min ago'
-      }
 
-    ]
-    this.lstSearchList = [
-      {
-        id: 1, name: 'Lung Sne Chong Pov Bosaba​ Lung Sne Chong Pov Bosaba​ [04 Ep]',
-        size: '10.45kb',
-        last_modified: '1 min ago'
-      },
-      {
-        id: 2, name: 'Documents.pdf', size: '22.67kb', last_modified: '2 min ago'
-      },
-      {
-        id: 3, name: 'icons.pdf', size: '25.45kb', last_modified: '5 min ago'
-      },
-      {
-        id: 4, name: 'User.xls', size: '25.1kb', last_modified: '15 min ago'
-      },
-      {
-        id: 5, name: 'Update.pdf', size: '32.25kb', last_modified: '14-Aug-2020'
-      },
-      {
-        id: 6, name: 'Vision.pdf', size: '14.45kb', last_modified: '30 min ago'
-      },
-      {
-        id: 7, name: 'Voice.pdf', size: '35.4kb', last_modified: '5 min ago'
-      },
-      {
-        id: 8, name: 'Tutorials.docs', size: '48.07kb', last_modified: '19 min ago'
-      },
-      {
-        id: 9, name: 'Music.mp3', size: '10.45kb', last_modified: '18 min ago'
-      },
-      {
-        id: 10, name: 'index.html', size: '49.13kb', last_modified: '24-Sep-2020'
-      },
-      {
-        id: 11, name: 'Installation.pdf', size: '10.45kb', last_modified: '69 min ago'
-      },
-      {
-        id: 12, name: 'Page.pdf', size: '10.45kb', last_modified: '45 min ago'
-      }
-
-    ]
     $(document).on('click', '#file_sidebar_toggle', function () {
       $('.file-wrap').toggleClass('file-sidebar-toggle');
     });
@@ -121,6 +72,20 @@ export class HomeComponent implements OnInit {
       $('.file-wrap').removeClass('file-sidebar-toggle');
     });
 
+
+
+    const url = (window.location.href).split('/');
+    this.dataService.visitParamRouterChange({currentUrl: url[3], message: this.videoType});
+    this.dataService.ActiveMenueSource.subscribe(message => {
+      this.videoType = message;
+      console.log(this.videoType);
+
+      this.titleService.setTitle('Video-Type:'+this.videoType?.name);
+      this.dataService.visitParamRouterChange({currentUrl: url[3], message: this.videoType});
+    });
+
+    this.inquiry();
+    this.doRequest(0);
   }
 
   // search filter in files name
@@ -138,22 +103,38 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  doRequest(OFFSET: number) {
+    const api = '/unsecur/web/video/api/v0/read';
+    const jsonData = {
+      LIMIT: 5,
+      OFFSET: OFFSET
+    };
+    console.log(jsonData);
+
+    this.hTTPService.Post(api, jsonData).then(response => {
+      if(response.result.responseCode === HTTPResponseCode.Success) {
+       console.log('response', response.body);
+        this.lstVideo = this.lstVideo.concat(response.body);
+        this.rowDataVideo = this.lstVideo;
+        console.log('rowDataVideo', this.rowDataVideo);
+
+      } else {
+        this.showErrMsg(response.result.responseMessage);
+      }
+    });
+  }
+
   test = 1;
   onScrollDown(item: any) {
     console.log('onScrollDown!!', item);
     this.scrolledLoadData = true;
-    setTimeout(() => {
-      console.log('dka;f');
-      for (let index = 0; index < 10; index++) {
-          this.lstSearchList.push(
-            {
-              id: 12 + (index + 1), name: 'Page.pdf', size: '10.45kb', last_modified: '45 min ago'
-            } );
-        }
-        this.scrolledLoadData = false;
-    }, 5000);
     console.log('scrolled!!', this.lstSearchList.length);
     console.log('this.test!!', this.test);
+    console.log(this.OFFSET);
+
+    this.OFFSET = this.OFFSET + 5;
+    console.log(this.OFFSET);
+    this.doRequest(this.OFFSET);
   }
 
   onScrollUp(item:any) {
@@ -162,7 +143,62 @@ export class HomeComponent implements OnInit {
   }
 
   view(item: any) {
+    console.log(item);
+
+    const jsonString = JSON.stringify(item);
+    const encryptString = EncryptionUtil.encrypt(jsonString.toString()).toString();
+    Utils.setSecureStorage(LOCAL_STORAGE.VideoView, encryptString);
+
     this.router.navigate(['/home/vd']);
+
+
   }
 
+   // Get Employee  Api Call
+  inquiry() {
+    const api = '/unsecur/web/videoSubType/api/v0/read';
+    this.hTTPService.Get(api).then(response => {
+      if(response.result.responseCode !== HTTPResponseCode.Success) {
+        this.showErrMsg(response.result.responseMessage);
+      } else {
+        this.lstSubVideoType = response.body;
+        this.rowData =this.lstSubVideoType;
+        console.log('rowData', this.rowData);
+      }
+    });
+  }
+
+  clickSubVideo(item: any) {
+    console.log('item', item);
+    this.subVideoType = item;
+  }
+
+
+  showErrMsg(msgKey: string, value?: any){
+    let message = '';
+    switch(msgKey) {
+      case 'Invalid_Name':
+        message = this.translate.instant('movieType.message.movieTypeRequired');
+        break;
+      case 'Invalid_SubVd_Id':
+        message = this.translate.instant('serverResponseCode.label.inValidMovieTypeIdWithValue', {value: value});
+        break;
+
+      case 'Invalid_Vd_ID':
+        message = this.translate.instant('serverResponseCode.label.inValidMovieTypeId');
+        break;
+      case 'unSelectRow':
+        message = this.translate.instant('common.message.unSelectRow');
+        break;
+      case '500':
+        message = this.translate.instant('serverResponseCode.label.serverError');
+        break;
+      default:
+        message = this.translate.instant('serverResponseCode.label.unknown');
+        break;
+    }
+    this.toastr.error(message, this.translate.instant('common.label.error'),{
+      timeOut: 5000,
+    });
+  }
 }

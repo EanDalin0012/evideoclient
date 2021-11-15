@@ -2,3 +2,7 @@
   height: 100px;
   overflow-y: scroll;
 }
+
+.file-cont-wrap {
+  width: 100%;
+}

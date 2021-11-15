@@ -1,3 +1,6 @@
+import { TranslateService } from '@ngx-translate/core';
+import { HTTPResponseCode } from './../../v-share/constants/common.const';
+import { HTTPService } from './../../v-share/service/http.service';
 import { Component, OnInit } from '@angular/core';
 import { AccountTypeCode, LOCAL_STORAGE } from '../../v-share/constants/common.const';
 import { AccountType } from '../../v-share/model/account-type';
@@ -9,6 +12,7 @@ import { Router } from '@angular/router';
 import { DataService } from '../../v-share/service/data.service';
 import { Utils } from '../../v-share/util/utils.static';
 import * as $ from 'jquery';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-slidebar',
@@ -47,9 +51,16 @@ export class SlidebarComponent implements OnInit {
   groups: Group;
   accountType ='';
 
+  lstVideoType: any[] = [];
+  rowData: any[] = [];
+  subVideoType: any;
+
   constructor(
     private router: Router,
-    private dataService: DataService
+    private dataService: DataService,
+    private hTTPService: HTTPService,
+    private translate: TranslateService,
+    private toastr: ToastrService,
   ) {
     // this.router.events.subscribe((event: Event) => {
     //   if (event instanceof NavigationEnd) {
@@ -132,6 +143,15 @@ export class SlidebarComponent implements OnInit {
     // });
 
     this.accountInfo = Utils.getSecureStorage(LOCAL_STORAGE.Account_Info);
+    this.inquiry();
+
+    this.dataService.visitSourceParamRoutorChangeData.subscribe(message => {
+      if(message) {
+        if(message.message) {
+          this.subVideoType = message.message;
+        }
+      }
+    });
 
   }
 
@@ -172,6 +192,53 @@ export class SlidebarComponent implements OnInit {
         break;
     }
   }
+
+  onRoutor(item:any) {
+    this.dataService.sendMessageActiveMenueSource(item);
+  }
+
+  // Get Movie Type  Api Call
+  inquiry() {
+      const api = '/unsecur/web/videoType/api/v0/read';
+      this.hTTPService.Get(api).then(response => {
+        if(response.result.responseCode !== HTTPResponseCode.Success) {
+          this.showErrMsg(response.result.responseMessage);
+       }else {
+          this.lstVideoType = response.body;
+          this.rowData =this.lstVideoType;
+          this.subVideoType = this.lstVideoType[0];
+          this.dataService.sendMessageActiveMenueSource(this.subVideoType);
+        }
+      });
+  }
+
+    showErrMsg(msgKey: string, value?: any){
+      let message = '';
+      switch(msgKey) {
+        case 'Invalid_Name':
+          message = this.translate.instant('movie.message.movieTypeRequired');
+          break;
+        case 'Invalid_Vd_Id':
+          message = this.translate.instant('serverResponseCode.label.inValidMovieTypeIdWithValue', {value: value});
+          break;
+
+        case 'Invalid_Vd_ID':
+          message = this.translate.instant('serverResponseCode.label.inValidMovieTypeId');
+          break;
+        case 'unSelectRow':
+          message = this.translate.instant('common.message.unSelectRow');
+          break;
+        case '500':
+          message = this.translate.instant('serverResponseCode.label.serverError');
+          break;
+        default:
+          message = this.translate.instant('serverResponseCode.label.unknown');
+          break;
+      }
+      this.toastr.error(message, this.translate.instant('common.label.error'),{
+        timeOut: 5000,
+      });
+    }
 
 }
 

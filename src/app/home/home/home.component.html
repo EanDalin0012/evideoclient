@@ -16,32 +16,11 @@
                       <div class="file-scroll">
                         <div class="roles-menu">
                           <ul>
-                            <li class="active">
-                              <a href="javascript:void(0);">Administrator
-                                <span class="role-action">
-                                  <span class="action-circle large" data-toggle="modal" data-target="#edit_role">
-                                    <i class="material-icons">edit</i>
-                                  </span>
-                                  <span class="action-circle large delete-btn" data-toggle="modal" data-target="#delete_role">
-                                    <i class="material-icons">delete</i>
-                                  </span>
-                                </span>
-                              </a>
+                            <li [ngClass]="{ 'active' : !subVideoType}">
+                              <a href="javascript:void(0);">All</a>
                             </li>
-                            <li>
-                              <a href="javascript:void(0);">CEO
-                                <span class="role-action">
-                                  <span class="action-circle large" data-toggle="modal" data-target="#edit_role">
-                                    <i class="material-icons">edit</i>
-                                  </span>
-                                  <span class="action-circle large delete-btn" data-toggle="modal" data-target="#delete_role">
-                                    <i class="material-icons">delete</i>
-                                  </span>
-                                </span>
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0);">Manager</a>
+                            <li *ngFor="let item of rowData" [ngClass]="{ 'active' : subVideoType?.id  === item.id}">
+                              <a href="javascript:void(0);" (click)="clickSubVideo(item)">{{item.name}}</a>
                             </li>
                           </ul>
                         </div>
@@ -84,43 +63,44 @@
                                   >
                                   <div class="file-content-inner">
                                       <h4>Recent Files</h4>
+
                                       <div class="row row-sm">
-                                          <div class="col-6 col-sm-4 col-md-3 col-lg-4 col-xl-3"
-                                              *ngFor="let data of lstSearchList">
-                                              <div class="card card-file" (click)="view(data)">
-                                                  <div class="dropdown-file">
-                                                      <a href="javascript:void(0)" class="dropdown-link" data-toggle="dropdown"><i
-                                                              class="fa fa-ellipsis-v"></i></a>
-                                                      <div class="dropdown-menu dropdown-menu-right">
-                                                          <a href="javascript:void(0)" class="dropdown-item">View</a>
-                                                          <a href="javascript:void(0)" class="dropdown-item">Share</a>
-                                                      </div>
-                                                  </div>
-                                                  <div class="card-file-thumb bb" style="background-image: url('https://1.bp.blogspot.com/-fjll9rjSaLk/YVAvYOTwNVI/AAAAAAAACxk/22IqgsYrY5IFYcG3F57NCnsu6ltCY5H5gCLcBGAsYHQ/w222-h230-p-k-no-nu/Lung-Sne-Chong-Pov-Bosaba.png');">
+                                        <div class="col-6 col-sm-4 col-md-3 col-lg-4 col-xl-3"
+                                            *ngFor="let data of rowDataVideo">
+                                            <div class="card card-file" (click)="view(data)">
+                                                <div class="dropdown-file">
+                                                    <a href="javascript:void(0)" class="dropdown-link" data-toggle="dropdown"><i
+                                                            class="fa fa-ellipsis-v"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a href="javascript:void(0)" class="dropdown-item">View</a>
+                                                        <a href="javascript:void(0)" class="dropdown-item">Share</a>
+                                                    </div>
+                                                </div>
+                                                <div class="card-file-thumb bb"  [ngStyle]="{'background-image': 'url(' + baseUrl+data.resourceId + ')'}">
 
-                                                  </div>
-                                                  <div class="card-body">
-                                                      <h6><a href="javascript:void(0)">{{data.name}}</a></h6>
-                                                      <span>{{data.size}} views</span>
-                                                  </div>
-                                                  <div class="card-footer">
-                                                      <span class="d-none d-sm-inline">Part : [0-12 EP]</span>
-                                                  </div>
-                                              </div>
-                                          </div>
-
+                                                </div>
+                                                <div class="card-body">
+                                                    <h6><a href="javascript:void(0)">{{data.VideoName}}</a></h6>
+                                                    <span>{{data.size}} views</span>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <span class="d-none d-sm-inline">Part : [0-12 EP]</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                       </div>
+
 
 
                                   </div>
 
-                                  <div style ="margin: auto; width: 100;" *ngIf="scrolledLoadData === true">
+                                  <!-- <div style ="margin: auto; width: 100;" *ngIf="scrolledLoadData === true">
                                       <div class = "scroll-load-vd">
                                               <img src="assets/img/loading.gif" alt="" style = "width: 100%;height: 100%;">
                                               Loading
                                       </div>
 
-                                  </div>
+                                  </div> -->
 
                               </div>
                           </div>

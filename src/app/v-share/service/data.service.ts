@@ -6,6 +6,9 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class DataService {
 
+  private messageScolling = new BehaviorSubject(0);
+  currentMessageScolling = this.messageScolling.asObservable();
+
   private messageSource = new BehaviorSubject('default message');
   currentMessage = this.messageSource.asObservable();
 
@@ -25,8 +28,22 @@ export class DataService {
   private viewNewAccountClose =  new BehaviorSubject<any>('');
   viewNewAccountCloseData = this.viewNewAccountClose.asObservable();
 
+  private messageActiveMenueSource = new BehaviorSubject('');
+  ActiveMenueSource = this.messageActiveMenueSource.asObservable();
+
+
   private chageProfile =  new BehaviorSubject<any>('');
   chageProfileData = this.chageProfile.asObservable();
+
+  sendMessageScolling(message: number) {
+    console.log('sendMessageScolling', message);
+
+    this.messageScolling.next(message);
+  }
+
+  sendMessageActiveMenueSource(message: string) {
+    this.messageActiveMenueSource.next(message);
+  }
 
   sendMessageNotification(message: string) {
     this.messageSourceNotification.next(message);
@@ -59,4 +76,5 @@ export class DataService {
   unsubscribeNewAccountClose() {
     this.viewNewAccountClose.complete();
   }
+
 }

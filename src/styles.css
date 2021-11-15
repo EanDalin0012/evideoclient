@@ -8481,11 +8481,12 @@ table .subj {text-align:left !important;}
 
 body>.loading {
   position: fixed;
+  display: block !important;
 }
 
 
 .loading {
-  position: fixed;
+  /* position: fixed;
   left: 0;
   top: 0;
   width: 100%;
@@ -8493,7 +8494,7 @@ body>.loading {
   font-size: .75rem;
   color: #fff;
   text-align: center;
-  background: rgba(0, 0, 0, .7);
+  background: rgba(0, 0, 0, .7); */
   z-index: 999999;
 }
 
@@ -8501,7 +8502,7 @@ body>.loading {
   position: absolute;
   left: 10%;
   top: 50%;
-  width: 80%;
+  /* width: 80%; */
   padding-top: 56px;
   background: url("assets/img/ico_loading.gif") no-repeat center top;
   -webkit-transform: translateY(-50%);
