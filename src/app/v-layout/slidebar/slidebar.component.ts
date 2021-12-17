@@ -195,6 +195,7 @@ export class SlidebarComponent implements OnInit {
 
   onRoutor(item:any) {
     this.dataService.sendMessageActiveMenueSource(item);
+    this.subVideoType = item;
   }
 
   // Get Movie Type  Api Call

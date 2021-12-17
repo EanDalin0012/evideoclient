@@ -8,32 +8,18 @@
                       <span>Main</span>
                   </li>
 
-                    <li *ngFor="let item of rowData; index as i;"
-                      [ngClass]="{ 'active' : subVideoType?.id  === item.id}">
-                      <a href="javascript:" (click)="onRoutor(item)">
-                        <i class="la la-files-o"></i>
-                        <span>{{item.name}}</span>
+                    <li class="submenu active">
+                      <a href="javascript:" [ngClass]="{ 'subdrop' : urlComplete.mainUrl === 'reports' }">
+                        <i class="fa fa-film" aria-hidden="true" style="font-size: 18px;"></i>
+                        <span> Video </span>
+                        <span  class="menu-arrow"></span>
                       </a>
-                    </li>
-
-                  <li class="submenu">
-                      <a href="javascript:"><i class="la la-share-alt"></i> <span>Multi Level</span> <span
-                              class="menu-arrow"></span></a>
-                      <ul style="display: none;">
-                          <li class="submenu">
-                              <a href="javascript:"> <span>Level 1</span> <span class="menu-arrow"></span></a>
-                              <ul style="display: none;">
-                                  <li><a href="javascript:"><span>Level 2</span></a></li>
-                                  <li class="submenu">
-                                      <a href="javascript:"> <span> Level 2</span> <span
-                                              class="menu-arrow"></span></a>
-                                      <ul style="display: none;">
-                                          <li><a href="javascript:">Level 3</a></li>
-                                          <li><a href="javascript:">Level 3</a></li>
-                                      </ul>
-                                  </li>
-                                  <li><a href="javascript:"> <span>Level 2</span></a></li>
-                              </ul>
+                      <ul style="display: block;">
+                          <li *ngFor="let item of rowData; index as i;"
+                            [ngClass]="{ 'active' : subVideoType?.id  === item.id}">
+                            <a [ngClass]="{ 'active subdrop' : subVideoType?.id  === item.id}" href="javascript:" (click)="onRoutor(item)">
+                              <span>{{item.name}}</span>
+                            </a>
                           </li>
                       </ul>
                   </li>
